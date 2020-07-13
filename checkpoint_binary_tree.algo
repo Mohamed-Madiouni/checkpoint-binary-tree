@@ -1,0 +1,85 @@
+
+//
+FUNCTION number_of_nodes(node:^BT) : INTEGER
+VAR
+    count : INTEGER := 1;
+BEGIN
+IF (node=NULL) THEN
+    RETURN 0   
+END_IF
+    IF (node^.LC<>NULL) THEN
+        count:= count + number_of_nodes(node^.LC);
+    END_IF
+    IF (node^.RC<>NULL) THEN
+        count:= count + number_of_nodes(node^.RC);
+    END_IF
+    RETURN count ;
+END
+
+//
+FUNCTION height_of_a_tree(node:^BT) : INTEGER
+VAR
+    left : INTEGER;
+    right : INTEGER;
+BEGIN
+IF (node=NULL) THEN
+    RETURN 0;   
+ELSE
+    left := height_of_a_tree(node^.LC);
+    right := height_of_a_tree(node^.RC);
+    IF (left>right) THEN
+        RETURN left+1;
+    ELSE
+    RETURN right +1;
+END_IF
+END
+
+//
+FUNCTION number_of_leaves(node:^BT) : INTEGER
+BEGIN
+IF (node=NULL) THEN 
+        RETURN 0 ;
+END_IF       
+IF (node^LC = NULL AND node^.RC = NULL) THEN
+        RETURN 1 ;
+    ELSE 
+        RETURN number_of_leaves(node^.LC) + number_of_leaves(node^.RC) ;
+END_IF        
+END
+
+//
+FUNCTION maximum_value(node:^BT) : INTEGER
+BEGIN
+IF (node<>NULL) THEN   
+            IF (node^RC = NULL) THEN
+            RETURN node^.VAL;
+            ELSE 
+            RETURN maximum_value(node^.RC); 
+            END_IF
+END_IF        
+END
+
+//
+FUNCTION is_full_binary_tree(node:^BT) : STRING
+BEGIN
+IF (node=NULL) THEN
+RETURN TRUE ;
+END_IF
+IF (node^LC = NULL AND node^.RC = NULL) THEN
+RETURN TRUE;
+END_IF
+IF (node^LC <> NULL AND node^.RC <> NULL) THEN
+RETURN is_full_binary_tree(node^.LC) AND is_full_binary_tree(node^.RC)
+END_IF        
+RETURN FALSE;
+END
+
+
+//
+ALGORITHM binary_tree
+VAR
+    BT :	STRUCT
+                        VAL : INTEGER;
+                        LC : ^BT;
+                        RC : ^BT;
+                    END_STRUCT
